@@ -64,14 +64,14 @@ defmodule Stripes.MixProject do
       {:phoenix_html, "~> 4.0"},
 
       # Development dependencies
-      {:ex_check, "~> 0.14.0", only: [:dev], runtime: false},
-      {:credo, ">= 0.0.0", only: [:dev], runtime: false},
-      {:dialyxir, ">= 0.0.0", only: [:dev], runtime: false},
-      {:doctor, ">= 0.0.0", only: [:dev], runtime: false},
-      {:ex_doc, ">= 0.0.0", only: [:dev], runtime: false},
-      {:gettext, ">= 0.0.0", only: [:dev], runtime: false},
-      {:sobelow, ">= 0.0.0", only: [:dev], runtime: false},
-      {:mix_audit, ">= 0.0.0", only: [:dev], runtime: false},
+      {:ex_check, "~> 0.14.0", only: [:dev, :test], runtime: false},
+      {:credo, ">= 0.0.0", only: [:dev, :test], runtime: false},
+      {:dialyxir, ">= 0.0.0", only: [:dev, :test], runtime: false},
+      {:doctor, ">= 0.0.0", only: [:dev, :test], runtime: false},
+      {:ex_doc, ">= 0.0.0", only: [:dev, :test], runtime: false},
+      {:gettext, ">= 0.0.0", only: [:dev, :test], runtime: false},
+      {:sobelow, ">= 0.0.0", only: [:dev, :test], runtime: false},
+      {:mix_audit, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:tailwind_formatter, "~> 0.4", only: [:dev, :test], runtime: false},
       {:styler, "~> 1.0", only: [:dev, :test], runtime: false},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
