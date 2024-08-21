@@ -1,0 +1,59 @@
+name: CI/CD
+
+on:
+  push:
+
+  pull_request:
+    branches:
+      - main
+
+env:
+  MIX_ENV: test
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          version-file: .tool-versions
+          version-type: strict
+
+      # - name: Set up Node.js
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version-file: .tool-versions
+      #     cache: npm
+      #     cache-dependency-path: assets/package-lock.json
+
+      - name: Restore cache
+        id: cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-${{ hashFiles('.tool-versions') }}-
+            ${{ runner.os }}-mix-
+
+      - run: mix setup
+
+      - name: Save cache
+        uses: actions/cache/save@v4
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
+
+      - run: mix lint
+      - run: mix test
