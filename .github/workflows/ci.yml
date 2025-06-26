@@ -55,4 +55,13 @@ jobs:
             _build
           key: ${{ runner.os }}-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
 
-      - run: mix check
+      - name: Run tests
+        env:
+          MIX_ENV: test
+        run: mix test
+
+      - name: Run quality checks
+        env:
+          MIX_ENV: test
+        run: |
+          mix check
