@@ -88,7 +88,8 @@ defmodule Stripes.MixProject do
       {:styler, "~> 1.0", only: [:dev, :test], runtime: false},
       {:tidewave, "~> 0.1", only: [:dev], runtime: false},
       {:live_debugger, "~> 0.3.0", only: [:dev], runtime: false},
-      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
+      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:junit_formatter, "~> 3.4", only: :test}
     ]
   end
 end
