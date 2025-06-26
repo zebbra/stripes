@@ -13,7 +13,7 @@ env:
 jobs:
   test:
     name: Run tests
-    runs-on: ubuntu-latest
+    runs-on: hetzner
 
     steps:
       - name: Checkout code
@@ -39,12 +39,17 @@ jobs:
           path: |
             deps
             _build
+            priv/plts
           key: ${{ runner.os }}-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
           restore-keys: |
             ${{ runner.os }}-mix-${{ hashFiles('.tool-versions') }}-
             ${{ runner.os }}-mix-
 
-      - run: mix setup
+      - run: mix deps.clean --all
+      - run: mix deps.get
+      - run: mix compile --warnings-as-errors
+      - run: rm -rf priv/plts
+      - run: mix dialyzer --plt
 
       - name: Save cache
         uses: actions/cache/save@v4
@@ -55,13 +60,13 @@ jobs:
             _build
           key: ${{ runner.os }}-mix-${{ hashFiles('.tool-versions') }}-${{ hashFiles('mix.lock') }}
 
-      - name: Run tests
-        env:
-          MIX_ENV: test
-        run: mix test
+      - run: mix deps.get
+      - run: mix compile --warnings-as-errors
+      - run: mix lint
+      - run: mix test
 
-      - name: Run quality checks
-        env:
-          MIX_ENV: test
-        run: |
-          mix check
+      - name: Test Summary
+        uses: test-summary/action@v2
+        with:
+          paths: test/reports/test-junit-report.xml
+        if: always()
