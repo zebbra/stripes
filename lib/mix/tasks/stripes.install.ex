@@ -1,6 +1,8 @@
 defmodule Mix.Tasks.Stripes.Install do
+  @shortdoc "Installs Stripes and its dependencies"
+
   @moduledoc """
-  Installs Stripes and its dependencies.
+  {@shortdoc}
 
   This task is used by igniter to install the Stripes package and configure
   all necessary dependencies in the target project.
@@ -21,16 +23,20 @@ defmodule Mix.Tasks.Stripes.Install do
   def info(_argv, _composing_task) do
     %Igniter.Mix.Task.Info{
       group: :igniter,
-      installs: Stripes.MixProject.deps(),
+      installs: [],
       positional: [],
       schema: [],
-      example: "mix igniter.install stripes"
+      example: "mix igniter.install stripes",
+      composes: ["stripes.deps"]
     }
   end
 
   @impl Igniter.Mix.Task
   def igniter(igniter) do
-    add_usage_instructions(igniter)
+    igniter
+    |> Igniter.Scribe.start_document("Installation", @moduledoc, app_name: :stripes)
+    |> add_usage_instructions()
+    |> Igniter.compose_task("stripes.deps")
   end
 
   defp add_usage_instructions(igniter) do
