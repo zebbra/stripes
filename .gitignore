@@ -26,3 +26,4 @@ stripes-*.tar
 /tmp/
 
 .elixir_ls
+.DS_Store
