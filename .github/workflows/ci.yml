@@ -63,9 +63,3 @@ jobs:
       - run: mix deps.get
       - run: mix compile --warnings-as-errors
       - run: mix check
-
-      - name: Test Summary
-        uses: test-summary/action@v2
-        with:
-          paths: test/reports/test-junit-report.xml
-        if: always()
