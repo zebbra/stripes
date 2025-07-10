@@ -2,10 +2,11 @@ defmodule Stripes.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/zebbra/stripes"
-  @version "0.0.1"
+  @version "0.1.0"
 
   @description """
-  A collection of Phoenix LiveView components using
+  A set of useful tools and libraries as well as a collection of Phoenix LiveView components.
+  Easily installable via Igniter with automatic dependency management for the Phoenix ecosystem.
   """
 
   def project do
@@ -14,12 +15,18 @@ defmodule Stripes.MixProject do
       version: @version,
       name: "Stripes",
       description: @description,
-      elixir: "~> 1.16",
+      elixir: "~> 1.18",
+      build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       package: package(),
       docs: docs(),
-      aliases: aliases()
+      aliases: aliases(),
+      source_url: @source_url,
+      dialyzer: [
+        plt_add_apps: [:mix],
+        ignore_warnings: ".dialyzer_ignore.exs"
+      ]
     ]
   end
 
@@ -32,10 +39,11 @@ defmodule Stripes.MixProject do
 
   defp package do
     [
-      maintainers: ["Hannes Wüthrich"],
+      name: "stripes",
+      maintainers: ["Hannes Wüthrich", "Claudio Siegenthaler"],
       licenses: ["MIT"],
-      links: %{"GitHub" => @source_url},
-      files: ~w(mix.exs priv lib assets README.md LICENSE.md CHANGELOG.md)
+      links: %{"GitHub" => @source_url, "Zebbra" => "https://zebbra.ch"},
+      files: ~w(mix.exs lib README.md LICENSE.md CHANGELOG.md)
     ]
   end
 
@@ -51,20 +59,24 @@ defmodule Stripes.MixProject do
 
   defp aliases do
     [
-      setup: ["deps.get"]
+      setup: ["deps.get"],
+      install: []
     ]
   end
 
   # Run "mix help deps" to learn about dependencies.
-  defp deps do
+  def deps do
     [
       # Runtime dependencies
       {:phoenix, "~> 1.7"},
-      {:phoenix_live_view, "~> 0.20"},
       {:phoenix_html, "~> 4.0"},
+      {:phoenix_live_view, "~> 1.0"},
+
+      # Igniter for installation
+      {:igniter, "~> 0.6", optional: true},
 
       # Development dependencies
-      {:ex_check, "~> 0.14.0", only: [:dev, :test], runtime: false},
+      {:ex_check, "~> 0.16", only: [:dev, :test], runtime: false},
       {:credo, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:dialyxir, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:doctor, ">= 0.0.0", only: [:dev, :test], runtime: false},
@@ -74,7 +86,10 @@ defmodule Stripes.MixProject do
       {:mix_audit, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:tailwind_formatter, "~> 0.4", only: [:dev, :test], runtime: false},
       {:styler, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false}
+      {:tidewave, "~> 0.1", only: [:dev], runtime: false},
+      {:live_debugger, "~> 0.3.0", only: [:dev], runtime: false},
+      {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
+      {:junit_formatter, "~> 3.4", only: :test}
     ]
   end
 end

@@ -5,27 +5,34 @@
 # Stripes
 
 <!-- MDOC -->
-
-A collection of Phoenix LiveView components using [DaisyUI](https://daisyui.com).
-
+A set of useful dev tools and libraries as well as a collection of Phoenix LiveView components.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `stripes` to your list of dependencies in `mix.exs`:
+### Using Igniter (Recommended)
 
-```elixir
-def deps do
-  [
-    {:stripes, "~> 0.1.0"}
-  ]
-end
+The easiest way to install Stripes is using Igniter, which will automatically add the dependency and its required dependencies:
+
+```bash
+mix igniter.install stripes
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/stripes>.
+This will:
+- Add `stripes` to your `mix.exs` dependencies
+- Ensures helper and dev dependencies are in place
+- Provide setup instructions for using Stripes components
 
-## Roadmap
+### Using Dev Tools
 
-TBD
+After adding the optional tools and running `mix deps.get`:
+
+```bash
+# Run all checks
+mix check
+
+# Run individual tools. E.g. ...
+mix credo                    # Code analysis
+mix dialyzer                 # Type checking
+mix format --check-formatted # Code formatting
+mix docs                     # Generate documentation
+```
